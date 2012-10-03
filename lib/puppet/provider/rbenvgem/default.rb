@@ -38,16 +38,13 @@ Puppet::Type.type(:rbenvgem).provide :default do
     end
 
     def list(where = :local)
-      args = ['list', where == :remote ? '--remote' : '--local', "#{gem_name}$"]
+      @list_cache ||= { :local => nil, :remote => nil }
+      return @list_cache[where] if @list_cache[where]
+      args = ['list', where == :remote ? '--remote' : '--local', "#{gem_name}"]
 
-      gem(*args).lines.map do |line|
+      @list_cache[where] = gem(*args).grep(/.*#{gem_name} \(.*/).map do |line|
         line =~ /^(?:\S+)\s+\((.+)\)/
-
-        return nil unless $1
-
-        # Fetch the version number
-        ver = $1.split(/,\s*/)
-        ver.empty? ? nil : ver
-      end.first
+	$1.nil? ? nil : $1.split(/[^\w.\-_]+/)
+      end.flatten
     end
 end
