@@ -21,7 +21,9 @@ Puppet::Type.type(:rbenvgem).provide :default do
   end
 
   def current
-    list
+    return nil if list.empty?
+    return [resource[:ensure]] if list.include?(resource[:ensure])
+    [ list.join(',') ]
   end
 
   private
