@@ -102,6 +102,16 @@ define rbenv::compile(
     root   => $root_path,
   }
 
+  if $ruby =~ /jruby/ {
+    file { "rbenv-vars JRUBY_HOME ${user} ${ruby}":
+      path => "${versions}/${ruby}/rbenv-vars",
+      ensure => present,
+      owner => $user,
+      replace => false,
+      content => 'JRUBY_HOME=${RBENV_ROOT}/versions/${RBENV_VERSION}',
+    }
+  }
+
   # Set default global ruby version for rbenv, if requested
   #
   if $global {

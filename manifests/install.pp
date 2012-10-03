@@ -52,4 +52,13 @@ define rbenv::install(
     path    => "${root_path}/cache",
     require => Exec["rbenv::checkout ${user}"]
   }
+
+  # Install rbenv-vars plugin
+  #
+  rbenv::plugin { "rbenv::plugin ${user} rbenv-vars":
+    plugin_name => 'rbenv-vars',
+    user        => $user,
+    source      => "git://github.com/sstephenson/rbenv-vars.git",
+  }
+
 }
