@@ -26,6 +26,7 @@ describe 'rbenv::plugin', :type => :define do
       :user    => user,
       :cwd     => target_path,
       :require => /rbenv::plugin::checkout #{user} #{plugin_name}/,
+      :unless  => "git fetch -v --dry-run 2>&1 | grep master | grep -q 'up to date'",
       :path    => ['/bin','/usr/bin','/usr/sbin']
     )
   end

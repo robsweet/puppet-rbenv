@@ -45,6 +45,7 @@ define rbenv::plugin(
     path    => ['/bin', '/usr/bin', '/usr/sbin'],
     timeout => $timeout,
     cwd     => $destination,
+    unless  => "git fetch -v --dry-run 2>&1 | grep master | grep -q 'up to date'",
     require => Exec["rbenv::plugin::checkout ${user} ${plugin_name}"],
   }
 
