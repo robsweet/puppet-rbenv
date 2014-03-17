@@ -59,6 +59,9 @@ define rbenv::install(
     plugin_name => 'rbenv-vars',
     user        => $user,
     source      => "git://github.com/sstephenson/rbenv-vars.git",
+    group       => $group,
+    root        => $root,
+    home        => $home,
   }
 
 }
