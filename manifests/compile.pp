@@ -109,6 +109,7 @@ define rbenv::compile(
       owner => $user,
       replace => false,
       content => 'JRUBY_HOME=${RBENV_ROOT}/versions/${RBENV_VERSION}',
+      require => Exec["rbenv::compile ${user} ${ruby}"],
     }
   }
 
