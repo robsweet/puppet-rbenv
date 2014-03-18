@@ -72,7 +72,7 @@ define rbenv::compile(
     user        => $user,
     group       => $group,
     cwd         => $home_path,
-    environment => [ "HOME=${home_path}", "CONFIGURE_OPTS=${configure_opts}" ],
+    environment => [ "HOME=${home_path}", "CONFIGURE_OPTS=${configure_opts}", "RBENV_ROOT=${root_path}" ],
     creates     => "${versions}/${ruby}",
     path        => $path,
     logoutput   => 'on_failure',
@@ -86,7 +86,7 @@ define rbenv::compile(
     group       => $group,
     cwd         => $home_path,
     onlyif      => "[ -e '${root_path}/.rehash' ]",
-    environment => [ "HOME=${home_path}" ],
+    environment => [ "HOME=${home_path}", "RBENV_ROOT=${root_path}" ],
     path        => $path,
     logoutput   => 'on_failure',
   }
