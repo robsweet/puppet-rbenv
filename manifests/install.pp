@@ -40,7 +40,7 @@ define rbenv::install(
     command => "echo 'source ${rbenvrc}' >> ${shrc}",
     user    => $user,
     group   => $group,
-    unless  => "grep -q rbenvrc ${shrc}",
+    unless  => "grep -q ${rbenvrc} ${shrc}",
     path    => ['/bin', '/usr/bin', '/usr/sbin'],
     require => File["rbenv::rbenvrc ${user}"],
   }
