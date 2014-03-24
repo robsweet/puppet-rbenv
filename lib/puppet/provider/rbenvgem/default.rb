@@ -33,7 +33,12 @@ Puppet::Type.type(:rbenvgem).provide :default do
 
     def gem(*args)
       exec_path = "#{resource[:rbenv]}/bin:#{resource[:rbenv]}/shims:/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin"
-      exe = "RBENV_VERSION=#{resource[:ruby]} PATH=#{exec_path} gem"
+      exe = ''
+      if resource[:ruby] =~ /jruby/
+        prefix = `#{resource[:rbenv]} prefix #{resource[:ruby]}`
+        exe += "JRUBY_HOME=#{prefix} "
+      end
+      exe += "RBENV_VERSION=#{resource[:ruby]} PATH=#{exec_path} gem"
       su('-', resource[:user], '-c', [exe, *args].join(' '))
     end
 
