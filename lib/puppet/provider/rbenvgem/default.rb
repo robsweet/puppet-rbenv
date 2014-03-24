@@ -35,7 +35,7 @@ Puppet::Type.type(:rbenvgem).provide :default do
       exec_path = "#{resource[:rbenv]}/bin:#{resource[:rbenv]}/shims:/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin"
       exe = ''
       if resource[:ruby] =~ /jruby/
-        prefix = `#{resource[:rbenv]} prefix #{resource[:ruby]}`
+        prefix = `#{resource[:rbenv]}/bin/rbenv prefix #{resource[:ruby]}`
         exe += "JRUBY_HOME=#{prefix} "
       end
       exe += "RBENV_VERSION=#{resource[:ruby]} PATH=#{exec_path} gem"
